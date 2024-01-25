@@ -1,0 +1,45 @@
+import { Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "User name is required"],
+      trim: true,
+      maxlength: [30, "name should be 30 character "],
+      minlength: [3, "name should be minimum 3 characters"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email id is required"],
+      unique: true,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [6, "password should be minimum 6 characters"],
+      set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(10)),
+    },
+    image: {
+      type: String,
+      default: "",
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+	isAdmin:{
+		type:Boolean,
+		default:false
+	}
+  },
+  { timestamps: true }
+);
+
+const User = model("User", userSchema);
+export default User;
