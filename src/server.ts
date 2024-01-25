@@ -1,5 +1,10 @@
 import app from "./app/app";
+import dbConnect from "./config/dbConnect";
 
-app.listen(3000, () => {
-  console.log("server is running");
+
+// db connection 
+dbConnect()
+
+app.listen(process.env.PORT, () => {
+  console.log(`server is running :${process.env.PORT}`);
 });
