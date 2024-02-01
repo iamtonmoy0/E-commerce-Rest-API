@@ -1,7 +1,7 @@
 import { responseError, responseSuccess } from "response-manager";
 import User from "../models/user.model";
 
-export const getUserServices = async (res, params) => {
+export const getUserService = async (res, params) => {
   const search = params.search || "";
   const limit = params.limit || 5;
   const page = params.page || 1;
@@ -38,4 +38,11 @@ export const getUserServices = async (res, params) => {
   };
 
   return responseSuccess(res, 201, "success", data);
+};
+// *get single user by id
+export const getUserByIdService = async (res, id) => {
+  const options = { password: 0 };
+  const user = await User.findById(id, options);
+  if (!user) return responseError(res, 401, "failed", "user not exist");
+  return responseSuccess(res, 200, "success", user);
 };

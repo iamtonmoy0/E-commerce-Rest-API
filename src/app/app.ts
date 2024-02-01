@@ -19,4 +19,16 @@ app.use(express.json());
 app.use(xssClean());
 app.use(limit);
 
+// routes
+app.use("/api/v1/users", require("../routes/v1/user.router"));
+
+// welcome route
+app.get("/", (req, res) => {
+  res.send("server is running");
+});
+// invalid route handler
+app.all("*", (req, res) => {
+  res.send("invalid request");
+});
+
 export default app;
