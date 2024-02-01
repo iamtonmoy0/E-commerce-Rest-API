@@ -46,3 +46,9 @@ export const getUserByIdService = async (res, id) => {
   if (!user) return responseError(res, 401, "failed", "user not exist");
   return responseSuccess(res, 200, "success", user);
 };
+// remove user by id
+export const removeUserByIdService = async (res, id) => {
+  const user = await User.findOneAndDelete(id);
+  if (!user) return responseError(res, 401, "failed", "Error deleting user");
+  return responseSuccess(res, 201, "success", "User deleted !");
+};
