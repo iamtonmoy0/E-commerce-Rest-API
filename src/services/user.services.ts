@@ -1,6 +1,6 @@
 import { responseError, responseSuccess } from "response-manager";
 import User from "../models/user.model";
-
+// get all users
 export const getUserService = async (res, params) => {
   const search = params.search || "";
   const limit = params.limit || 5;
@@ -51,4 +51,13 @@ export const removeUserByIdService = async (res, id) => {
   const user = await User.findOneAndDelete(id);
   if (!user) return responseError(res, 401, "failed", "Error deleting user");
   return responseSuccess(res, 201, "success", "User deleted !");
+};
+// register user service
+export const registerUserService = async (res, data) => {
+  const { name, email, password, phone, address } = data;
+  // checking if user exist in this email
+  const user = await User.find({ email });
+  if (user) {
+    return responseError(res, 409, "conflict", "Email has been used!");
+  }
 };

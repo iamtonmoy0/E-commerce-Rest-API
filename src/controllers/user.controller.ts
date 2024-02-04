@@ -1,5 +1,9 @@
 import { responseError } from "response-manager";
-import { getUserByIdService, getUserService } from "../services/user.services";
+import {
+  getUserByIdService,
+  getUserService,
+  registerUserService,
+} from "../services/user.services";
 // get all users
 export const getUsersController = async (req, res) => {
   try {
@@ -22,5 +26,13 @@ export const removeUserByIdController = async (req, res) => {
     await getUserByIdService(res, req.params.id);
   } catch (error: any) {
     responseError(res, 400, error.message, error);
+  }
+};
+// register user
+export const registerUserController = async (req, res) => {
+  try {
+    await registerUserService(res, req.body);
+  } catch (error) {
+    responseError(res, 400, "failed", error.message);
   }
 };
