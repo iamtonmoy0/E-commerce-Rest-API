@@ -1,5 +1,6 @@
 import { responseError, responseSuccess } from "response-manager";
 import User from "../models/user.model";
+import { createToken } from "../helpers/token";
 // get all users
 export const getUserService = async (res, params) => {
   const search = params.search || "";
@@ -56,8 +57,19 @@ export const removeUserByIdService = async (res, id) => {
 export const registerUserService = async (res, data) => {
   const { name, email, password, phone, address } = data;
   // checking if user exist in this email
-  const user = await User.find({ email });
-  if (user) {
+  const isExist = await User.find({ email });
+  if (isExist) {
     return responseError(res, 409, "conflict", "Email has been used!");
   }
+  const createUser = await User.create({
+    name,
+    email,
+    password,
+    phone,
+    address,
+  });
+  if (!createUser) {
+    return responseError(res, 500, "server error", "Can't create new account");
+  }
+  return responseSuccess(res, 201, "success", "User Registered Successful");
 };
