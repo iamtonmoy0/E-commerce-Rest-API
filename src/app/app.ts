@@ -3,6 +3,7 @@ import morgan from "morgan";
 import xssClean from "xss-clean";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
+import userRouter from "../routes/v1/user.router";
 // configuring env
 dotenv.config();
 // initialize app
@@ -20,7 +21,7 @@ app.use(xssClean());
 app.use(limit);
 
 // routes
-app.use("/api/v1/users", require("../routes/v1/user.router"));
+app.use("/api/v1/users", userRouter);
 
 // welcome route
 app.get("/", (req, res) => {

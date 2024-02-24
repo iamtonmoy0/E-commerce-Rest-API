@@ -1,4 +1,4 @@
-import Express, { Router } from "express";
+import { Router } from "express";
 import {
   getUserByIdController,
   getUsersController,
@@ -6,10 +6,13 @@ import {
   removeUserByIdController,
 } from "../../controllers/user.controller";
 
-Router.route("/").get(getUsersController);
-Router.route("/:id")
+const router = Router();
+
+router.route("/register").post(registerUserController);
+router.route("/").get(getUsersController);
+router
+  .route("/:id")
   .get(getUserByIdController)
   .delete(removeUserByIdController);
-Router.route("/register").post(registerUserController);
 
-export default Router;
+export default router;

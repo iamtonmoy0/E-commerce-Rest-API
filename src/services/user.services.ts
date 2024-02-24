@@ -49,7 +49,7 @@ export const getUserByIdService = async (res, id) => {
 };
 // remove user by id
 export const removeUserByIdService = async (res, id) => {
-  const user = await User.findOneAndDelete(id);
+  const user = await User.findOneAndDelete({ _id: id });
   if (!user) return responseError(res, 401, "failed", "Error deleting user");
   return responseSuccess(res, 201, "success", "User deleted !");
 };
