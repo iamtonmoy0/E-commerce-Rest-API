@@ -19,7 +19,12 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: [6, "password should be minimum 6 characters"],
-      set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(10)),
+      set: function (v:string) {
+        if (this.isNew || this.isModified("password")) {
+          return bcrypt.hashSync(v, bcrypt.genSaltSync(10));
+        }
+        return v;
+      },
     },
     image: {
       type: String,
@@ -27,16 +32,16 @@ const userSchema = new Schema(
     },
     address: {
       type: String,
-      required: true,
+      // required: true,
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
     },
-	isAdmin:{
-		type:Boolean,
-		default:false
-	}
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

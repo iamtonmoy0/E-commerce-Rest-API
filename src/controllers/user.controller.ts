@@ -1,13 +1,13 @@
 import { responseError } from "response-manager";
 import {
   getUserByIdService,
-  getUserService,
+  getUsersService,
   registerUserService,
 } from "../services/user.services";
 // get all users
 export const getUsersController = async (req, res) => {
   try {
-    await getUserService(res, req.params);
+    await getUsersService(res, req.params);
   } catch (error: any) {
     responseError(res, 400, error.message, error);
   }

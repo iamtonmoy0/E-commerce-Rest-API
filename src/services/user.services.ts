@@ -2,7 +2,7 @@ import { responseError, responseSuccess } from "response-manager";
 import User from "../models/user.model";
 import { createToken } from "../helpers/token";
 // get all users
-export const getUserService = async (res, params) => {
+export const getUsersService = async (res, params) => {
   const search = params.search || "";
   const limit = params.limit || 5;
   const page = params.page || 1;
@@ -57,7 +57,7 @@ export const removeUserByIdService = async (res, id) => {
 export const registerUserService = async (res, data) => {
   const { name, email, password, phone, address } = data;
   // checking if user exist in this email
-  const isExist = await User.find({ email });
+  const isExist = await User.findOne({ email });
   if (isExist) {
     return responseError(res, 409, "conflict", "Email has been used!");
   }
