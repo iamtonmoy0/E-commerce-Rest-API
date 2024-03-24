@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 const userSchema = new Schema(
   {
     name: {
@@ -19,7 +19,7 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: [6, "password should be minimum 6 characters"],
-      set: function (v:string) {
+      set: function (v: string) {
         if (this.isNew || this.isModified("password")) {
           return bcrypt.hashSync(v, bcrypt.genSaltSync(10));
         }

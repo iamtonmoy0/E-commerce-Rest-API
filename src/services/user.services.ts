@@ -1,6 +1,7 @@
 import { responseError, responseSuccess } from "response-manager";
 import User from "../models/user.model";
 import { createToken } from "../helpers/token";
+import sendEmail from "../helpers/email";
 // get all users
 export const getUsersService = async (res, params) => {
   const search = params.search || "";
@@ -53,7 +54,9 @@ export const removeUserByIdService = async (res, id) => {
   if (!user) return responseError(res, 401, "failed", "Error deleting user");
   return responseSuccess(res, 201, "success", "User deleted !");
 };
+
 // register user service
+
 export const registerUserService = async (res, data) => {
   const { name, email, password, phone, address } = data;
   // checking if user exist in this email
@@ -61,15 +64,31 @@ export const registerUserService = async (res, data) => {
   if (isExist) {
     return responseError(res, 409, "conflict", "Email has been used!");
   }
-  const createUser = await User.create({
-    name,
+  // create token
+  const token = await createToken({ name, email, password, phone, address });
+  //email data
+  const emailData = {
     email,
-    password,
-    phone,
-    address,
-  });
-  if (!createUser) {
-    return responseError(res, 500, "server error", "Can't create new account");
-  }
-  return responseSuccess(res, 201, "success", "User Registered Successful");
+    subject: "Account Activation Email",
+    html: `
+    <h2>Hello ${name}</h2>
+    <p>please click here  <a>${token}</a> </p>
+    `,
+  };
+  // send email
+  sendEmail(emailData);
+
+  responseSuccess(res, 201, "success ", "Check your email for verification");
+
+  // const createUser = await User.create({
+  //   name,
+  //   email,
+  //   password,
+  //   phone,
+  //   address,
+  // });
+  // if (!createUser) {
+  //   return responseError(res, 500, "server error", "Can't create new account");
+  // }
+  // return responseSuccess(res, 201, "success", "User Registered Successful");
 };
