@@ -1,6 +1,6 @@
 import { responseError, responseSuccess } from "response-manager";
 import User from "../models/user.model";
-import { createToken } from "../helpers/token";
+import { createToken, verifyToken } from "../helpers/token";
 import sendEmail from "../helpers/email";
 // get all users
 export const getUsersService = async (res, params) => {
@@ -72,7 +72,7 @@ export const registerUserService = async (res, data) => {
     subject: "Account Activation Email",
     html: `
     <h2>Hello ${name}</h2>
-    <p>please click here  <a>${token}</a> </p>
+    <p>please click here  <a href="${token}"> Click Here </a> </p>
     `,
   };
   // send email
@@ -91,4 +91,13 @@ export const registerUserService = async (res, data) => {
   //   return responseError(res, 500, "server error", "Can't create new account");
   // }
   // return responseSuccess(res, 201, "success", "User Registered Successful");
+};
+// activate user controller
+export const activateUserAccountService = async (res, token) => {
+  if (!token) {
+    return responseSuccess(res, 201, "failed", "Invalid Token");
+  }
+  const decoded = await verifyToken(token);
+  await User.create(decoded);
+  return responseSuccess(res, 201, "success", "new user created successful");
 };

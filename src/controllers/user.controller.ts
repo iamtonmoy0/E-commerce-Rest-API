@@ -1,5 +1,6 @@
 import { responseError } from "response-manager";
 import {
+  activateUserAccountService,
   getUserByIdService,
   getUsersService,
   registerUserService,
@@ -32,6 +33,15 @@ export const removeUserByIdController = async (req, res) => {
 export const registerUserController = async (req, res) => {
   try {
     await registerUserService(res, req.body);
+  } catch (error) {
+    responseError(res, 400, "failed", error.message);
+  }
+};
+
+// activate user controller
+export const activateUserAccountController = async (req, res) => {
+  try {
+    await activateUserAccountService(res, req.body.token);
   } catch (error) {
     responseError(res, 400, "failed", error.message);
   }

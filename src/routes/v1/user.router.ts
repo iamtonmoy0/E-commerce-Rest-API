@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  activateUserAccountController,
   getUserByIdController,
   getUsersController,
   registerUserController,
@@ -9,6 +10,7 @@ import {
 const router = Router();
 
 router.route("/register").post(registerUserController);
+router.route("/verify").post(activateUserAccountController);
 router.route("/").get(getUsersController);
 router
   .route("/:id")

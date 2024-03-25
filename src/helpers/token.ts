@@ -6,4 +6,6 @@ export const createToken = async (data) => {
   return token;
 };
 
-export const verifyToken = async () => {};
+export const verifyToken = async (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET);
+};
