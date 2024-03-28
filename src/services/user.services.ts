@@ -80,17 +80,7 @@ export const registerUserService = async (res, data) => {
 
   responseSuccess(res, 201, "success ", "Check your email for verification");
 
-  // const createUser = await User.create({
-  //   name,
-  //   email,
-  //   password,
-  //   phone,
-  //   address,
-  // });
-  // if (!createUser) {
-  //   return responseError(res, 500, "server error", "Can't create new account");
-  // }
-  // return responseSuccess(res, 201, "success", "User Registered Successful");
+  
 };
 // activate user controller
 export const activateUserAccountService = async (res, token) => {
