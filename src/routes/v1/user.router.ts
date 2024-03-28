@@ -6,10 +6,11 @@ import {
   registerUserController,
   removeUserByIdController,
 } from "../../controllers/user.controller";
+import upload from "../../middlewares/uploadFile";
 
 const router = Router();
 
-router.route("/register").post(registerUserController);
+router.route("/register").post(upload.single("image"), registerUserController);
 router.route("/verify").post(activateUserAccountController);
 router.route("/").get(getUsersController);
 router

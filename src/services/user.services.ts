@@ -76,11 +76,9 @@ export const registerUserService = async (res, data) => {
     `,
   };
   // send email
-  sendEmail(emailData);
+  // await sendEmail(emailData);
 
   responseSuccess(res, 201, "success ", "Check your email for verification");
-
-  
 };
 // activate user controller
 export const activateUserAccountService = async (res, token) => {
