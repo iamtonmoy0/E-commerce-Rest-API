@@ -57,15 +57,27 @@ export const removeUserByIdService = async (res, id) => {
 
 // register user service
 
-export const registerUserService = async (res, data) => {
-  const { name, email, password, phone, address } = data;
+export const registerUserService = async (res, req) => {
+  const { name, email, password, phone, address } = req.body;
+  const imageBufferString = req.file.buffer.toString("base64");
+
+  if (!req.file) {
+    return responseError(res, 200, "failed", "image can not be empty");
+  }
   // checking if user exist in this email
   const isExist = await User.findOne({ email });
   if (isExist) {
     return responseError(res, 409, "conflict", "Email has been used!");
   }
   // create token
-  const token = await createToken({ name, email, password, phone, address });
+  const token = await createToken({
+    name,
+    email,
+    password,
+    phone,
+    address,
+    image: imageBufferString,
+  });
   //email data
   const emailData = {
     email,

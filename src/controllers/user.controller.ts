@@ -32,7 +32,7 @@ export const removeUserByIdController = async (req, res) => {
 // register user
 export const registerUserController = async (req, res) => {
   try {
-    await registerUserService(res, req.body);
+    await registerUserService(res, req);
   } catch (error) {
     responseError(res, 400, "failed", error.message);
   }
@@ -42,6 +42,14 @@ export const registerUserController = async (req, res) => {
 export const activateUserAccountController = async (req, res) => {
   try {
     await activateUserAccountService(res, req.body.token);
+  } catch (error) {
+    responseError(res, 400, "failed", error.message);
+  }
+};
+//update user controller
+export const updateUserController = async (req, res) => {
+  try {
+    // await activateUserAccountService(res, req.body.token);
   } catch (error) {
     responseError(res, 400, "failed", error.message);
   }

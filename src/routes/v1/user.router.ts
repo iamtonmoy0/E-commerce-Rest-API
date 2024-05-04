@@ -5,6 +5,7 @@ import {
   getUsersController,
   registerUserController,
   removeUserByIdController,
+  updateUserController,
 } from "../../controllers/user.controller";
 import upload from "../../middlewares/uploadFile";
 import { registrationValidation } from "../../middlewares/auth.validation";
@@ -14,12 +15,18 @@ const router = Router();
 
 router
   .route("/register")
-  .post(registrationValidation,runValidation, upload.single("image"), registerUserController);
+  .post(
+    registrationValidation,
+    runValidation,
+    upload.single("image"),
+    registerUserController
+  );
 router.route("/verify").post(activateUserAccountController);
 router.route("/").get(getUsersController);
 router
   .route("/:id")
   .get(getUserByIdController)
-  .delete(removeUserByIdController);
+  .delete(removeUserByIdController)
+  .put(updateUserController);
 
 export default router;

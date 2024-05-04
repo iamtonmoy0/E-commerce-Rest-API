@@ -27,8 +27,9 @@ const userSchema = new Schema(
       },
     },
     image: {
-      type: String,
-      default: "",
+      type: Buffer,
+      contentType: String,
+      required: true,
     },
     address: {
       type: String,
